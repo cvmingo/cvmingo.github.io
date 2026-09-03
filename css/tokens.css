@@ -1,0 +1,158 @@
+/* tokens.css — Fluent-style design tokens (Windows 11 inspired)
+   Palette values are UI facts, not borrowed code. Light + dark, accent swappable. */
+
+:root {
+  /* ---- accent (user-swappable from Settings app) ---- */
+  --accent:            #0067C0;
+  --accent-hover:      #0078D4;
+  --accent-pressed:    #005BA1;
+  --accent-text:       #FFFFFF;
+
+  /* ---- typography ---- */
+  --font-ui: "Segoe UI Variable Text", "Segoe UI Variable", "Segoe UI",
+             system-ui, -apple-system, "Inter", Roboto, Helvetica, Arial, sans-serif;
+  --font-display: "Segoe UI Variable Display", "Segoe UI Variable", "Segoe UI",
+             system-ui, -apple-system, "Inter", sans-serif;
+  --font-mono: "Cascadia Code", "Cascadia Mono", Consolas,
+             "SF Mono", "Liberation Mono", Menlo, monospace;
+
+  --fs-caption: 12px;
+  --fs-body:    14px;
+  --fs-strong:  14px;
+  --fs-subtitle:20px;
+  --fs-title:   28px;
+
+  /* ---- radii (Win11's defining trait) ---- */
+  --r-window:  8px;
+  --r-card:    7px;
+  --r-control: 4px;
+  --r-pill:    999px;
+
+  /* ---- motion ---- */
+  --ease-out:  cubic-bezier(0, 0, 0, 1);
+  --ease-std:  cubic-bezier(0.2, 0, 0, 1);
+  --dur-fast:  120ms;
+  --dur-mid:   200ms;
+  --dur-slow:  350ms;
+
+  /* ---- chrome metrics ---- */
+  --titlebar-h:  32px;
+  --caption-w:   46px;   /* each of min/max/close */
+  --taskbar-h:   48px;
+  --tb-icon:     40px;
+
+  --z-window:   100;
+  --z-snap:     9000;
+  --z-taskbar:  9500;
+  --z-flyout:   9600;
+}
+
+/* ================= LIGHT (default) ================= */
+:root {
+  color-scheme: light;
+
+  --wallpaper-a: #0d3b66;
+  --wallpaper-b: #1b6ca8;
+  --wallpaper-c: #48b0f7;
+  --wallpaper-d: #061a2e;
+
+  --layer-solid:      #F3F3F3;
+  --layer-card:       #FFFFFF;
+  --layer-alt:        #FAFAFA;
+  --layer-subtle:     rgba(0, 0, 0, 0.0373);
+  --layer-subtle-2:   rgba(0, 0, 0, 0.0605);
+
+  /* mica = window background; acrylic = flyouts/taskbar */
+  --mica:             rgba(243, 243, 243, 0.82);
+  --acrylic:          rgba(249, 249, 249, 0.72);
+  --acrylic-strong:   rgba(243, 243, 243, 0.96);
+
+  --stroke:           rgba(0, 0, 0, 0.0578);
+  --stroke-strong:    rgba(0, 0, 0, 0.16);
+  --stroke-window:    rgba(0, 0, 0, 0.18);
+  --stroke-hilite:    rgba(255, 255, 255, 0.85);
+
+  --text:             rgba(0, 0, 0, 0.89);
+  --text-2:           rgba(0, 0, 0, 0.61);
+  --text-3:           rgba(0, 0, 0, 0.45);
+  --text-accent:      var(--accent);
+
+  --ctl-face:         rgba(255, 255, 255, 0.70);
+  --ctl-hover:        rgba(249, 249, 249, 0.50);
+  --ctl-press:        rgba(249, 249, 249, 0.30);
+  --ctl-stroke:       rgba(0, 0, 0, 0.0578);
+
+  --close-hover:      #C42B1C;
+  --close-press:      #B2271A;
+
+  --shadow-window:    0 8px 16px rgba(0,0,0,0.14), 0 32px 64px rgba(0,0,0,0.19);
+  --shadow-window-in: 0 2px 4px rgba(0,0,0,0.10), 0 8px 16px rgba(0,0,0,0.08);
+  --shadow-flyout:    0 8px 16px rgba(0,0,0,0.14), 0 0 2px rgba(0,0,0,0.12);
+}
+
+/* ================= DARK ================= */
+:root[data-theme="dark"] {
+  color-scheme: dark;
+
+  --accent:           #4CC2FF;
+  --accent-hover:     #60CDFF;
+  --accent-pressed:   #3AA8E0;
+  --accent-text:      #001A26;
+
+  --wallpaper-a: #0a1120;
+  --wallpaper-b: #10243d;
+  --wallpaper-c: #1e5f8f;
+  --wallpaper-d: #04080f;
+
+  --layer-solid:      #202020;
+  --layer-card:       #2B2B2B;
+  --layer-alt:        #272727;
+  --layer-subtle:     rgba(255, 255, 255, 0.0326);
+  --layer-subtle-2:   rgba(255, 255, 255, 0.0605);
+
+  --mica:             rgba(32, 32, 32, 0.82);
+  --acrylic:          rgba(44, 44, 44, 0.72);
+  --acrylic-strong:   rgba(32, 32, 32, 0.96);
+
+  --stroke:           rgba(255, 255, 255, 0.0698);
+  --stroke-strong:    rgba(255, 255, 255, 0.12);
+  --stroke-window:    rgba(0, 0, 0, 0.55);
+  --stroke-hilite:    rgba(255, 255, 255, 0.09);
+
+  --text:             #FFFFFF;
+  --text-2:           rgba(255, 255, 255, 0.79);
+  --text-3:           rgba(255, 255, 255, 0.55);
+
+  --ctl-face:         rgba(255, 255, 255, 0.0605);
+  --ctl-hover:        rgba(255, 255, 255, 0.0837);
+  --ctl-press:        rgba(255, 255, 255, 0.0326);
+  --ctl-stroke:       rgba(255, 255, 255, 0.0698);
+
+  --shadow-window:    0 8px 16px rgba(0,0,0,0.34), 0 32px 64px rgba(0,0,0,0.42);
+  --shadow-window-in: 0 2px 4px rgba(0,0,0,0.26), 0 8px 16px rgba(0,0,0,0.22);
+  --shadow-flyout:    0 8px 16px rgba(0,0,0,0.40), 0 0 2px rgba(0,0,0,0.30);
+}
+
+/* Follow the OS when the user hasn't chosen (data-theme unset) */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]):not([data-theme="dark"]) {
+    color-scheme: dark;
+    --accent: #4CC2FF; --accent-hover: #60CDFF; --accent-pressed: #3AA8E0; --accent-text: #001A26;
+    --wallpaper-a: #0a1120; --wallpaper-b: #10243d; --wallpaper-c: #1e5f8f; --wallpaper-d: #04080f;
+    --layer-solid: #202020; --layer-card: #2B2B2B; --layer-alt: #272727;
+    --layer-subtle: rgba(255,255,255,0.0326); --layer-subtle-2: rgba(255,255,255,0.0605);
+    --mica: rgba(32,32,32,0.82); --acrylic: rgba(44,44,44,0.72); --acrylic-strong: rgba(32,32,32,0.96);
+    --stroke: rgba(255,255,255,0.0698); --stroke-strong: rgba(255,255,255,0.12);
+    --stroke-window: rgba(0,0,0,0.55); --stroke-hilite: rgba(255,255,255,0.09);
+    --text: #FFFFFF; --text-2: rgba(255,255,255,0.79); --text-3: rgba(255,255,255,0.55);
+    --ctl-face: rgba(255,255,255,0.0605); --ctl-hover: rgba(255,255,255,0.0837);
+    --ctl-press: rgba(255,255,255,0.0326); --ctl-stroke: rgba(255,255,255,0.0698);
+    --shadow-window: 0 8px 16px rgba(0,0,0,0.34), 0 32px 64px rgba(0,0,0,0.42);
+    --shadow-window-in: 0 2px 4px rgba(0,0,0,0.26), 0 8px 16px rgba(0,0,0,0.22);
+    --shadow-flyout: 0 8px 16px rgba(0,0,0,0.40), 0 0 2px rgba(0,0,0,0.30);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root { --dur-fast: 1ms; --dur-mid: 1ms; --dur-slow: 1ms; }
+}

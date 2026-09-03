@@ -1,0 +1,137 @@
+/* window.css — window chrome: frame, titlebar, caption buttons, resize handles */
+
+.win {
+  position: absolute;
+  z-index: var(--z-window);
+  display: flex;
+  flex-direction: column;
+  min-width: 320px;
+  min-height: 180px;
+  border: 1px solid var(--stroke-window);
+  border-radius: var(--r-window);
+  background: var(--mica);
+  box-shadow: var(--shadow-window-in);
+  overflow: hidden;
+  will-change: transform, width, height;
+}
+/* inner hairline highlight — reads as Fluent depth */
+.win::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  border: 1px solid var(--stroke-hilite);
+  opacity: 0.5;
+  pointer-events: none;
+  z-index: 5;
+}
+.win.focused { box-shadow: var(--shadow-window); }
+.win.minimized { display: none; }
+
+.win.maximized {
+  border-radius: 0;
+  border-color: transparent;
+  box-shadow: none;
+}
+.win.maximized::before { display: none; }
+
+/* open / close animation */
+@keyframes win-in  { from { opacity: 0; transform: scale(0.94); } to { opacity: 1; transform: scale(1); } }
+@keyframes win-out { from { opacity: 1; transform: scale(1); }    to { opacity: 0; transform: scale(0.94); } }
+.win.opening { animation: win-in var(--dur-mid) var(--ease-out); }
+.win.closing { animation: win-out var(--dur-fast) var(--ease-std) forwards; pointer-events: none; }
+
+/* animated geometry changes (snap / maximize), disabled while dragging */
+.win.animating { transition: left var(--dur-mid) var(--ease-out),
+                             top var(--dur-mid) var(--ease-out),
+                             width var(--dur-mid) var(--ease-out),
+                             height var(--dur-mid) var(--ease-out); }
+
+/* ---------- titlebar ---------- */
+.win-titlebar {
+  position: relative;
+  z-index: 6;
+  /* only the titlebar shows the desktop through it, so only it pays for blur */
+  backdrop-filter: blur(24px) saturate(150%);
+  -webkit-backdrop-filter: blur(24px) saturate(150%);
+  flex: 0 0 var(--titlebar-h);
+  height: var(--titlebar-h);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding-left: 12px;
+  cursor: default;
+  touch-action: none;
+}
+.win-titlebar .win-icon { width: 16px; height: 16px; display: grid; place-items: center; flex: 0 0 16px; }
+.win-titlebar .win-icon svg { width: 16px; height: 16px; }
+.win-title {
+  flex: 1 1 auto;
+  min-width: 0;
+  font-size: var(--fs-caption);
+  color: var(--text-2);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.win.focused .win-title { color: var(--text); }
+
+/* ---------- caption buttons ---------- */
+.win-captions { flex: 0 0 auto; display: flex; align-self: stretch; }
+.cap-btn {
+  width: var(--caption-w);
+  display: grid;
+  place-items: center;
+  color: var(--text-2);
+  transition: background var(--dur-fast) linear;
+}
+.win.focused .cap-btn { color: var(--text); }
+.cap-btn:hover  { background: var(--layer-subtle-2); }
+.cap-btn:active { background: var(--layer-subtle); }
+.cap-btn svg { width: 10px; height: 10px; }
+.cap-btn[data-cap="close"]:hover  { background: var(--close-hover); color: #fff; }
+.cap-btn[data-cap="close"]:active { background: var(--close-press); color: rgba(255,255,255,0.7); }
+.win[data-resizable="false"] .cap-btn[data-cap="max"] { display: none; }
+
+/* ---------- body ---------- */
+.win-body {
+  position: relative;
+  z-index: 6;
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: auto;
+  background: var(--layer-card);
+  border-top: 1px solid var(--stroke);
+  scrollbar-width: thin;
+  scrollbar-color: var(--text-3) transparent;
+}
+.win.dialog .win-body { background: var(--layer-solid); }
+.win-body::-webkit-scrollbar { width: 12px; height: 12px; }
+.win-body::-webkit-scrollbar-track { background: transparent; }
+.win-body::-webkit-scrollbar-thumb {
+  background: var(--text-3);
+  border: 4px solid transparent;
+  border-radius: var(--r-pill);
+  background-clip: content-box;
+}
+.win-body::-webkit-scrollbar-thumb:hover { background: var(--text-2); background-clip: content-box; }
+
+/* while dragging/resizing, stop iframes & text from eating pointer events */
+body.wm-busy .win-body { pointer-events: none; }
+body.wm-busy { cursor: inherit; }
+
+/* ---------- resize handles ---------- */
+.rz { position: absolute; z-index: 7; touch-action: none; }
+.win.maximized .rz, .win[data-resizable="false"] .rz { display: none; }
+.rz-n  { top: -3px;    left: 8px; right: 8px; height: 7px;  cursor: ns-resize; }
+.rz-s  { bottom: -3px; left: 8px; right: 8px; height: 7px;  cursor: ns-resize; }
+.rz-w  { left: -3px;   top: 8px; bottom: 8px; width: 7px;   cursor: ew-resize; }
+.rz-e  { right: -3px;  top: 8px; bottom: 8px; width: 7px;   cursor: ew-resize; }
+.rz-nw { top: -3px;    left: -3px;  width: 14px; height: 14px; cursor: nwse-resize; }
+.rz-ne { top: -3px;    right: -3px; width: 14px; height: 14px; cursor: nesw-resize; }
+.rz-sw { bottom: -3px; left: -3px;  width: 14px; height: 14px; cursor: nesw-resize; }
+.rz-se { bottom: -3px; right: -3px; width: 14px; height: 14px; cursor: nwse-resize; }
+
+@supports not (backdrop-filter: blur(1px)) {
+  .win-titlebar { background: var(--layer-solid); }
+}

@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Clint — Full Stack Web Developer</title>
+<meta name="description" content="Portfolio of Clint, full stack web developer: projects, skills and experience, presented as a desktop environment built in vanilla JavaScript.">
+<meta name="theme-color" content="#0067C0">
+<meta name="color-scheme" content="light dark">
+
+<!-- social preview: drop a 1200x630 PNG at assets/og.png -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="Clint — Full Stack Web Developer">
+<meta property="og:description" content="Projects, skills and experience, presented as a desktop environment built in vanilla JavaScript.">
+<meta property="og:image" content="assets/og.png">
+<meta name="twitter:card" content="summary_large_image">
+
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="css/tokens.css">
+<link rel="stylesheet" href="css/desktop.css">
+<link rel="stylesheet" href="css/window.css">
+<link rel="stylesheet" href="css/taskbar.css">
+<link rel="stylesheet" href="css/apps.css">
+</head>
+<body>
+
+<!-- wallpaper: pure CSS, no image request -->
+<div id="wallpaper" aria-hidden="true"></div>
+
+<!-- crawlable, no-JS content. Replaced visually by the desktop. -->
+<main id="fallback" hidden>
+  <h1>Clint — Full Stack Web Developer</h1>
+  <p>I build fast, accessible web apps end to end.</p>
+  <p>This portfolio is presented as a desktop environment and needs JavaScript.
+     You can reach me at <a href="mailto:ceo@photoeditingcompany.com">ceo@photoeditingcompany.com</a>.</p>
+</main>
+<noscript>
+  <style>#fallback{display:block!important;padding:48px;max-width:60ch;margin:0 auto;color:#fff}
+         #desktop,#taskbar{display:none!important}</style>
+</noscript>
+
+<!-- the desktop -->
+<div id="desktop">
+  <div id="desktop-icons" role="list" aria-label="Desktop shortcuts"></div>
+</div>
+
+<div id="snap-preview" aria-hidden="true"></div>
+
+<!-- shell -->
+<div id="start-menu" role="dialog" aria-label="Start menu" aria-hidden="true"></div>
+<div id="context-menu" role="menu" aria-hidden="true"></div>
+<div id="taskbar" role="toolbar" aria-label="Taskbar"></div>
+
+<!-- desktop metaphor needs a real pointer and some room -->
+<div id="too-small" role="alertdialog" aria-label="Larger screen needed">
+  <h1>Clint</h1>
+  <p><strong>Full Stack Web Developer</strong></p>
+  <p>This portfolio is a desktop environment — it wants a wider window to be worth using.
+     Open it on a laptop or resize this one.</p>
+  <p><a href="mailto:ceo@photoeditingcompany.com">ceo@photoeditingcompany.com</a></p>
+</div>
+
+<script type="module" src="js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,160 @@
+/* desktop.css — base reset, wallpaper, desktop icons, selection marquee */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html, body {
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+  font-family: var(--font-ui);
+  font-size: var(--fs-body);
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  user-select: none;
+  -webkit-user-select: none;
+  background: var(--wallpaper-d);
+}
+
+button { font: inherit; color: inherit; border: 0; background: none; cursor: default; }
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+img { max-width: 100%; }
+
+:focus-visible {
+  outline: 2px solid var(--text);
+  outline-offset: 2px;
+  border-radius: var(--r-control);
+}
+
+/* ---------- wallpaper ---------- */
+#wallpaper {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  background:
+    radial-gradient(120% 90% at 78% 18%, var(--wallpaper-c) 0%, transparent 55%),
+    radial-gradient(90% 70% at 20% 85%, var(--wallpaper-b) 0%, transparent 60%),
+    linear-gradient(150deg, var(--wallpaper-a) 0%, var(--wallpaper-d) 100%);
+  transition: background var(--dur-slow) var(--ease-std);
+}
+#wallpaper::after {
+  /* soft light bloom, entirely our own geometry.
+     Deliberately built from wide radial stops rather than filter:blur() —
+     a full-viewport blur filter forces an expensive offscreen composite. */
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(38% 46% at 82% 22%, rgba(255,255,255,0.20), transparent 70%),
+    radial-gradient(30% 26% at 62% 42%, rgba(255,255,255,0.10), transparent 72%),
+    radial-gradient(48% 32% at 24% 78%, rgba(255,255,255,0.07), transparent 74%);
+  opacity: 0.9;
+}
+body[data-wallpaper="mesh"] #wallpaper {
+  background:
+    radial-gradient(60% 60% at 15% 20%, #7c3aed55 0%, transparent 60%),
+    radial-gradient(55% 55% at 85% 15%, #06b6d455 0%, transparent 60%),
+    radial-gradient(70% 70% at 70% 85%, #ec489955 0%, transparent 60%),
+    linear-gradient(160deg, #0f172a 0%, #020617 100%);
+}
+body[data-wallpaper="mono"] #wallpaper {
+  background: linear-gradient(160deg, #2a2a2e 0%, #0b0b0d 100%);
+}
+body[data-wallpaper="mono"] #wallpaper::after { opacity: 0.3; }
+
+/* ---------- desktop surface ---------- */
+#desktop {
+  position: fixed;
+  inset: 0 0 var(--taskbar-h) 0;
+  z-index: 1;
+}
+
+/* ---------- desktop icons ---------- */
+#desktop-icons {
+  position: absolute;
+  inset: 8px;
+  display: grid;
+  /* Icons fill DOWN a column, then start a new column — as on a real desktop.
+     The explicit track must be the rows for column flow to have rows to fill;
+     with explicit columns instead, every item lands in a single row. */
+  grid-template-rows: repeat(auto-fill, 92px);
+  grid-auto-columns: 88px;
+  grid-auto-flow: column;
+  justify-content: start;
+  align-content: start;
+  gap: 2px;
+  pointer-events: none;
+}
+.desk-icon {
+  pointer-events: auto;
+  width: 88px;
+  height: 92px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 6px 4px;
+  border: 1px solid transparent;
+  border-radius: var(--r-control);
+  text-align: center;
+  cursor: default;
+}
+.desk-icon:hover   { background: rgba(255,255,255,0.10); border-color: rgba(255,255,255,0.14); }
+.desk-icon.selected{ background: color-mix(in srgb, var(--accent) 38%, transparent);
+                     border-color: color-mix(in srgb, var(--accent) 60%, transparent); }
+.desk-icon .glyph { width: 38px; height: 38px; display: grid; place-items: center; }
+.desk-icon .glyph svg { width: 34px; height: 34px; }
+.desk-icon .label {
+  font-size: var(--fs-caption);
+  line-height: 1.25;
+  color: #fff;
+  text-shadow: 0 1px 3px rgba(0,0,0,0.75);
+  max-width: 84px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  word-break: break-word;
+}
+
+/* ---------- snap preview overlay ---------- */
+#snap-preview {
+  position: fixed;
+  z-index: var(--z-snap);
+  border: 1px solid var(--stroke-hilite);
+  border-radius: var(--r-window);
+  background: color-mix(in srgb, var(--accent) 26%, transparent);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  pointer-events: none;
+  opacity: 0;
+  transition: all var(--dur-mid) var(--ease-out), opacity var(--dur-fast) linear;
+}
+#snap-preview.show { opacity: 1; }
+
+/* ---------- small screens: the desktop metaphor needs room ---------- */
+#too-small {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  padding: 32px 24px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  text-align: center;
+  background: linear-gradient(160deg, var(--wallpaper-a), var(--wallpaper-d));
+  color: #fff;
+}
+#too-small h1 { font-family: var(--font-display); font-size: var(--fs-title); margin: 0; }
+#too-small p  { margin: 0; max-width: 34ch; line-height: 1.5; color: rgba(255,255,255,0.82); }
+#too-small a  { color: #9ad8ff; }
+@media (max-width: 720px), (max-height: 480px) {
+  #too-small { display: flex; }
+}
