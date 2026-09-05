@@ -29,8 +29,8 @@ export const profile = {
   },
   links: [
     // REVIEW: add your real GitHub / LinkedIn — they weren't on the old site.
-    { label: 'GitHub',   url: 'https://github.com/TODO',      icon: 'code' },
-    { label: 'LinkedIn', url: 'https://linkedin.com/in/TODO', icon: 'user' },
+    { label: 'GitHub',   url: 'https://github.com/cvmingo',      icon: 'code' },
+    { label: 'LinkedIn', url: 'https://www.linkedin.com/in/cvmingo/', icon: 'user' },
     { label: 'Email',    url: 'mailto:clintmingo98@gmail.com', icon: 'mail' },
   ],
   resumeUrl: 'assets/resume.pdf',           // drop your PDF here, or remove the button
